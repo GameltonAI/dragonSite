@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DragonCheat - Dragon ID</title>
+    <style>
+        /* --- СБРОС И БАЗОВЫЕ СТИЛИ --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f0f13; /* Темный фон */
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden; /* Чтобы не было скролла на странице входа */
+        }
+
+        /* --- ЭКРАН DRAGON ID (АВТОРИЗАЦИЯ) --- */
+        #auth-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background: radial-gradient(circle at center, #2a0a0a 0%, #0f0f13 100%);
+            z-index: 1000;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .auth-card {
+            background: rgba(30, 30, 35, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(220, 20, 60, 0.3); /* Красное свечение */
+            width: 350px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .auth-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ff3333;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: #151518;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #ff3333;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #cc0000, #ff3333);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 51, 51, 0.4);
+        }
+
+        .toggle-link {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #888;
+            cursor: pointer;
+        }
+        
+        .toggle-link span {
+            color: #ff3333;
+            text-decoration: underline;
+        }
+
+        /* --- ОСНОВНОЙ САЙТ --- */
+        #main-site {
+            display: none; /* Скрыт по умолчанию */
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        /* Навигационный бар */
+        header {
+            background-color: rgba(20, 20, 25, 0.9);
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .site-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .brand-name span {
+            color: #ff3333; /* Dragon Red */
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #cccccc;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        nav a.active {
+            color: #ff3333;
+            border: 1px solid #ff3333;
+        }
+
+        /* Контент сайта (пример) */
+        .content-placeholder {
+            padding: 100px;
+            text-align: center;
+        }
+        
+        h1 { font-size: 3rem; margin-bottom: 20px; }
+        p { color: #aaa; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+    </style>
+</head>
+<body>
+
+    <div id="auth-screen">
+        <div class="auth-card">
+            <img src="LogoDragon.png" alt="Dragon Logo" class="auth-logo">
+            <h2 class="auth-title">Dragon ID</h2>
+
+            <div id="login-form">
+                <div class="input-group">
+                    <label>Логин или Email</label>
+                    <input type="text" placeholder="Введите Dragon ID">
+                </div>
+                <div class="input-group">
+                    <label>Пароль</label>
+                    <input type="password" placeholder="••••••••">
+                </div>
+                <button class="btn-primary" onclick="enterSite()">Войти</button>
+                <div class="toggle-link" onclick="toggleAuth('register')">
+                    Нет аккаунта? <span>Зарегистрироваться</span>
+                </div>
+            </div>
+
+            <div id="register-form" style="display: none;">
+                <div class="input-group">
+                    <label>Придумайте никнейм</label>
+                    <input type="text" placeholder="New Dragon">
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="mail@example.com">
+                </div>
+                <div class="input-group">
+                    <label>Пароль</label>
+                    <input type="password" placeholder="••••••••">
+                </div>
+                <button class="btn-primary" onclick="enterSite()">Создать ID</button>
+                <div class="toggle-link" onclick="toggleAuth('login')">
+                    Уже есть Dragon ID? <span>Войти</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-site">
+        <header>
+            <div class="header-left">
+                <img src="LogoDragon.png" alt="Logo" class="site-logo">
+                <div class="brand-name">Dragon<span>Cheat</span></div>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Скачать</a></li>
+                    <li><a href="#">Конфиги</a></li>
+                    <li><a href="#">О проекте</a></li>
+                    <li><a href="#">Модели</a></li>
+                    <li><a href="#">Профиль</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="content-placeholder">
+            <h1>DOMINATE THE GAME</h1>
+            <p>Добро пожаловать в DragonCheat. Лучшие приватные конфигурации и модели доступны для загрузки. Используйте навигацию сверху для доступа к функционалу.</p>
+        </div>
+    </div>
+
+    <script>
+        // Функция переключения между Входом и Регистрацией
+        function toggleAuth(mode) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const title = document.querySelector('.auth-title');
+
+            if (mode === 'register') {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                title.innerText = "Создание ID";
+            } else {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                title.innerText = "Dragon ID";
+            }
+        }
+
+        // Функция входа на сайт (симуляция)
+        function enterSite() {
+            // Здесь можно добавить проверку полей, если нужно
+            const authScreen = document.getElementById('auth-screen');
+            const mainSite = document.getElementById('main-site');
+
+            // Анимация исчезновения
+            authScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                authScreen.style.display = 'none';
+                mainSite.style.display = 'block';
+                document.body.style.overflow = 'auto'; // Включаем скролл
+            }, 500); // Ждем 0.5 сек пока пройдет анимация
+        }
+    </script>
+</body>
+</html>
