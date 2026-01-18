@@ -80,9 +80,10 @@
 
     <script>
         // --- НАСТРОЙКИ SUPABASE ---
-        const SB_URL = "sb_publishable_8XxnJmUhi7o2yCbT6Eho-w_fnxvj7-h"; 
-        const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnbGxpbWdvem5hcGtpY3lucXh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3NDI1NzUsImV4cCI6MjA4NDMxODU3NX0.pLxA4QcEJfiIL4PbGvJQe8toFZOn0-OmC-6q0zCQ5O0";
-        const supabase = supabase.createClient(SB_URL, SB_KEY);
+        const SB_URL = "sb_publishable_8XxnJmUhi7o2yCbT6Eho-w_fnxvj7-h"; // Возьми его во вкладке API (строка Project URL)
+        const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnbGxpbWdvem5hcGtpY3lucXh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3NDI1NzUsImV4cCI6MjA4NDMxODU3NX0.pLxA4QcEJfiIL4PbGvJQe8toFZOn0-OmC-6q0zCQ5O0"; // Тот самый длинный ключ 'anon public'
+
+        const sb = sb.createClient(SB_URL, SB_KEY);
 
         // --- ЛОГИКА ВХОДА ---
         async function handleAuth() {
@@ -90,11 +91,11 @@
             const password = document.getElementById('password').value;
 
             // Пробуем войти
-            let { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            let { data, error } = await sb.auth.signInWithPassword({ email, password });
 
             // Если не вышло войти, пробуем зарегистрировать
             if (error) {
-                const { data: regData, error: regError } = await supabase.auth.signUp({ email, password });
+                const { data: regData, error: regError } = await sb.auth.signUp({ email, password });
                 if (regError) return alert("Ошибка: " + regError.message);
                 alert("Регистрация успешна! Теперь войдите.");
             } else {
@@ -183,3 +184,4 @@
     </script>
 </body>
 </html>
+
